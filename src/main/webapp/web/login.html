@@ -1,0 +1,85 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <form id="form-login" method="post" action="../user/login.do">
+    name:
+    <input id="name_input"/>
+    <br/>
+    pass:
+    <input id="password_input"/>
+
+    <!--<button type="submit" id="bt-register" value="提交信息">submit</button>-->
+        <input type="submit" value="login" id="bt-login"/>
+
+    </form>
+
+    <script src="../js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //#form-register 使用ID选择器 查找唯一的一个 dom 对象，封装到JQuery对象中返回。  JQuery(Dom(Form)), JQuery 对象时候，就可以调用JQuery对象的方法
+            //JQuery API submit() 方法用于在form对象上绑定onsubmit事件。
+            $("#form-login").submit(commitForm)
+
+            // $("#name_input").focusin(function () {
+            //     $(this).next().html("username length 6-12").removeClass().addClass("msg-default").show()
+            // }).blur(checkName)
+            // $("#password_input").focusin(function () {
+            //     $(this).next().html("password length 6-12").removeClass().addClass("msg-default").show()
+            // }).blur(checkPassword)
+
+        })
+        var SUCCESS = 1
+
+        function commitForm() {
+            // 检验表单
+            /*
+            var checkForm = checkName() + checkPassword()
+            if (checkForm != 2) {
+                // 表单检验失败
+                return false;
+            }
+            */
+
+            // console.log("提交表单3")
+            // return false
+            // 获取表单的所有参数， 提交到服务器
+            var name = $("#name_input").val()
+            var password = $("#password_input").val()
+            // alert(name)
+            // alert(password)
+            // js对象,简称JSON
+            var data = {
+                "name": name,
+                "password": password,
+            }
+
+            // console.log(data)
+            // console.info(data.json);
+            // $.post(url, data, success回调函数)
+            var url = "../user/login.do";
+            $.post(url, data, function (result) {
+                // result.state result.message result.data
+                console.log(data)
+                console.log("服务器请求成功");
+                if (result.state == SUCCESS) {
+                    alert("OKOK")
+                    // location.href = "login.html"
+                } else {//ERROR
+                    //將錯誤消息顯示到 用戶名邊上
+                    var msg = result.message
+                    $("#name").next().html(msg)
+                }
+            })
+
+            return false
+        }
+    </script>
+
+
+</body>
+</html>
+
